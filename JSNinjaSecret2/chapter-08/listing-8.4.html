@@ -9,27 +9,30 @@
 	<body>
 		<script>
 			"use strict";
+			//定义构造函数
 			function Ninja() {
-			    let _skillLevel = 0;
-
+			    let _skillLevel = 0;//私有变量 将通过闭包访问改变量
+                 //使用内置的defineProperty定义属性slillLevel
 			    Object.defineProperty(this, 'skillLevel', {
+			    	//访问skillLevel时调用get方法
 			      get: () => {
 			        report("The get method is called");
 			        return _skillLevel;
 			      },
+			      //对skillLevel赋值时调用set方法
 			      set: value => {
 			        report("The set method is called");
 			        _skillLevel = value;
 			      }
 			    });
 			  }
-
+              //创建新的Ninja实例
 			  const ninja = new Ninja();
 
 			  assert(typeof ninja._skillLevel === "undefined",
 			         "We cannot access a 'private' property");
 			  assert(ninja.skillLevel === 0, "The getter works fine!");
-
+              //赋值调用隐式的set方法
 			  ninja.skillLevel = 10;
 			  assert(ninja.skillLevel === 10, "The value was updated");
 		</script>
