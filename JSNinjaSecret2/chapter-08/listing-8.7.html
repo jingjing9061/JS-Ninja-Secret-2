@@ -2,13 +2,15 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Creating proxies with the Proxy constructor</title>
+		<title>使用代理控制访问</title>
 		<link rel="stylesheet" href="../assert.css">
 		<script src="../assert.js"></script>
 	</head>
 	<body>
 		<script>
+		    //目标对象
 			const emperor = { name: "Komei" };
+			//创建代理传入对象emperor以及包含set与get方法的对象用于处理对象属性的读写操作
 			const representative = new Proxy(emperor, {
 			  get: (target, key) => {
 			    report("Reading " + key + " through a proxy");
@@ -24,18 +26,19 @@
 			assert(emperor.name === "Komei", "The emperor’s name is Komei");
 			assert(representative.name === "Komei",
 			      "We can get the name property through a proxy");
-
+             //访问目标不存在的nickname属性
 			assert(emperor.nickname === undefined,
 			      "The emperor doesn’t have a nickname ");
+			//通过代理访问不存在的nickname 
 			assert(representative.nickname === "Don’t bother the emperor!",
 			      "The proxy jumps in when we make inproper requests");
-
+            //通过代理添加nickname属性
 			representative.nickname = "Tenno";
 			assert(emperor.nickname === "Tenno",
 			      "The emperor now has a nickname");
 			assert(representative.nickname === "Tenno",
 			      "The nickname is also accessible through the proxy");
 		</script>
-		<p>February 2016, Works in Firefox</p>
+		<p>February 2016, Works in Firefox <br>代理 是我们通过代理控制另一个对象的访问 通过代理可以定义当对象发生交互时可执行自定义的行为————————如读取或设置属性值，或调用方法。可以将代理理解成通用化的setter和getter。区别是代理可是每个setter和getter仅能控制单个对象的属性，而代理可以用于对象交互的通用处理，包括调用对象的方法。</p>
 	</body>
 </html>
